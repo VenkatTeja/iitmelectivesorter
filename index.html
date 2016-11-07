@@ -12,6 +12,7 @@
 			table{ width:100%;},
 			th{padding: 5px;},
 			td{padding: 10px;},
+			tr{height: 50px},
 			.bgImage{
 			    background-repeat: no-repeat;
 			    background-position: center;
@@ -52,19 +53,27 @@
 			</div>
 		</div>
 		</div>
-		<div ng-app="electiveList" ng-controller="ElectiveListCtrl" class="container bgw box_shadow_dwn borderLt padding10">
+		<div ng-app="electiveList" ng-controller="ElectiveListCtrl" class="container bgw box_shadow_dwn borderLt" style="padding:0px 50px">
+			<div class="fullW thumbs_wrap">
 			<h4 class="colorbluegreen">Select Department</h4>
-			<select ng-model="selectedDepts">
-				<option ng-repeat="department in departments">{{department}}</option>
-			</select>
-			<h4 class="colorbluegreen">Slot selection</h4>
+			<div ng-repeat="dept in departments" class="col-sm-2">
+				<label>
+					<input type="checkbox" ng-checked="exists(dept, selectedDepts)"ng-click="toggle(dept, selectedDepts)"/>
+					{{dept}}
+				</label>
+			</div>
+		</div>
+		<div class="fullW thumbs_wrap">
+			<h4 class="colorbluegreen fullW">Slot selection</h4>
 			<div ng-repeat="slot in slots" class="col-sm-2">
 				<label>
 					<input type="checkbox" ng-checked="exists(slot, selectedSlots)"ng-click="toggle(slot, selectedSlots)"/>
 					{{slot}}
 				</label>
 			</div>
-			<hr style="border-color:black"/>
+		</div>	
+			<hr style="border-color:#ddd" class="fullW"/>
+			<p>**COT : If not chill, consult of Prof is required.
 			<table>
 				<tr class="padding10"><th id="uwgCourseDetails_c_0_0" columnno="0" class="ig_39f2ae58_r4 st_grid_header ig_39f2ae58_2" height="35px"><nobr>Course No</nobr></th><th id="uwgCourseDetails_c_0_1" columnno="1" class="ig_39f2ae58_r4 st_grid_header ig_39f2ae58_4" height="35px"><nobr>Course Name</nobr></th><th id="uwgCourseDetails_c_0_2" columnno="2" class="ig_39f2ae58_r4 st_grid_header ig_39f2ae58_6" height="35px"><nobr>Slot</nobr></th><th id="uwgCourseDetails_c_0_3" columnno="3" class="ig_39f2ae58_r4 st_grid_header ig_39f2ae58_8" height="35px"><nobr>COT</nobr></th><th id="uwgCourseDetails_c_0_4" columnno="4" class="ig_39f2ae58_r4 st_grid_header ig_39f2ae58_10" height="35px"><nobr>Elective Type</nobr></th></tr>
 				<tr ng-repeat="item in data | filter:filterData" class="padding10 fullW">
@@ -75,6 +84,7 @@
 					<td>{{item.electiveType}}</td>
 				</tr>
 			</table>
+			<div style="min-height:200px"></div>
 		</div>
 		<table id="electiveList" style="display:none">
 			<colgroup><col width="5%"><col width="25%"><col width="3%"><col width="3%"><col width="10%"></colgroup>
@@ -92,6 +102,7 @@
 					$scope.departments = [];
 					$scope.slots = [];
 					$scope.selectedSlots = [];
+					$scope.selectedDepts = [];
 
 				    $scope.toggle = function (item, list) {
 				        var idx = list.indexOf(item);
@@ -111,7 +122,14 @@
 				    	var dept = item.courseNo[0]+item.courseNo[1];
 				    	dept = dept.toUpperCase();
 
-				    	if(dept==$scope.selectedDepts && ($scope.selectedSlots.indexOf(item.slot)+1))
+				    	if(!($scope.selectedSlots.length || $scope.selectedDepts.length))
+				    		return true;
+				    	else if(!$scope.selectedSlots.length && ($scope.selectedDepts.indexOf(dept)+1))
+				    		return true;
+				    	else if(!$scope.selectedDepts.length && ($scope.selectedSlots.indexOf(item.slot)+1))
+				    		return true;
+
+				    	else if(($scope.selectedDepts.indexOf(dept)+1) && ($scope.selectedSlots.indexOf(item.slot)+1))
 				    		return true;
 				    	return false;
 				    }
