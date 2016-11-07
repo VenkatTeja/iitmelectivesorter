@@ -3,12 +3,22 @@
 		<title>
 		</title>
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+		<link rel="stylesheet" href="commonclasses.css">
 
 		<style>
-			table{ width:100%;},
-			td, th{
-			padding: 5px;
+		body{
+			background:rgb(240,240,240);
 		}
+			table{ width:100%;},
+			th{padding: 5px;},
+			td{padding: 10px;},
+			.bgImage{
+			    background-repeat: no-repeat;
+			    background-position: center;
+			    background-size: cover;
+			    opacity:0.4;
+			    width: 100%;
+			}
 		</style>
 		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
 		<!-- jQuery library -->
@@ -19,21 +29,45 @@
 
 	</head>
 	<body>
-		<div ng-app="electiveList" ng-controller="ElectiveListCtrl" class="container">
-			<h4>Select Department</h4>
+		<!--Google analytics-->
+		<script>
+		  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+		  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+		  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+		  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+		  ga('create', 'UA-86984300-1', 'auto');
+		  ga('send', 'pageview');
+
+		</script>
+
+
+		<div class="fullW bgdb colorw" style="min-height:400px;position:relative">
+			<div class="fullW bgImage" style="background-image: url(http://alumni.iitm.ac.in/iitm/wp-content/uploads/2014/10/GC.jpg);height:400px"></div>
+			<div class="fullW valignOut" style="position:absolute;top:0px;height:100%">
+				<div>
+				<h1>IITM Elective Sorter</h1>
+				<b><p>Use this site to easily select your elective from a list of <b>more than 700</b> courses. You can sort by department and slots</p>
+				<p>Developed by VT (teja96.sf@gmail.com). You can always send me your suggestions.</p></b>
+			</div>
+		</div>
+		</div>
+		<div ng-app="electiveList" ng-controller="ElectiveListCtrl" class="container bgw box_shadow_dwn borderLt padding10">
+			<h4 class="colorbluegreen">Select Department</h4>
 			<select ng-model="selectedDepts">
 				<option ng-repeat="department in departments">{{department}}</option>
 			</select>
-			<h4>Slot selection</h4>
+			<h4 class="colorbluegreen">Slot selection</h4>
 			<div ng-repeat="slot in slots" class="col-sm-2">
 				<label>
 					<input type="checkbox" ng-checked="exists(slot, selectedSlots)"ng-click="toggle(slot, selectedSlots)"/>
 					{{slot}}
 				</label>
 			</div>
-			<table style="">
-				<tr><th id="uwgCourseDetails_c_0_0" columnno="0" class="ig_39f2ae58_r4 st_grid_header ig_39f2ae58_2" height="35px"><nobr>Course No</nobr></th><th id="uwgCourseDetails_c_0_1" columnno="1" class="ig_39f2ae58_r4 st_grid_header ig_39f2ae58_4" height="35px"><nobr>Course Name</nobr></th><th id="uwgCourseDetails_c_0_2" columnno="2" class="ig_39f2ae58_r4 st_grid_header ig_39f2ae58_6" height="35px"><nobr>Slot</nobr></th><th id="uwgCourseDetails_c_0_3" columnno="3" class="ig_39f2ae58_r4 st_grid_header ig_39f2ae58_8" height="35px"><nobr>COT</nobr></th><th id="uwgCourseDetails_c_0_4" columnno="4" class="ig_39f2ae58_r4 st_grid_header ig_39f2ae58_10" height="35px"><nobr>Elective Type</nobr></th></tr>
-				<tr ng-repeat="item in data | filter:filterData">
+			<hr style="border-color:black"/>
+			<table>
+				<tr class="padding10"><th id="uwgCourseDetails_c_0_0" columnno="0" class="ig_39f2ae58_r4 st_grid_header ig_39f2ae58_2" height="35px"><nobr>Course No</nobr></th><th id="uwgCourseDetails_c_0_1" columnno="1" class="ig_39f2ae58_r4 st_grid_header ig_39f2ae58_4" height="35px"><nobr>Course Name</nobr></th><th id="uwgCourseDetails_c_0_2" columnno="2" class="ig_39f2ae58_r4 st_grid_header ig_39f2ae58_6" height="35px"><nobr>Slot</nobr></th><th id="uwgCourseDetails_c_0_3" columnno="3" class="ig_39f2ae58_r4 st_grid_header ig_39f2ae58_8" height="35px"><nobr>COT</nobr></th><th id="uwgCourseDetails_c_0_4" columnno="4" class="ig_39f2ae58_r4 st_grid_header ig_39f2ae58_10" height="35px"><nobr>Elective Type</nobr></th></tr>
+				<tr ng-repeat="item in data | filter:filterData" class="padding10 fullW">
 					<td>{{item.courseNo}}</td>
 					<td>{{item.name}}</td>
 					<td>{{item.slot}}</td>
